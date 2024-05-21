@@ -1,15 +1,22 @@
 import { StatusBar } from 'react-native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { NavigationContainer } from '@react-navigation/native'
-import HomeScreen from './src/screens/HomeScreen'
+
+import CharactersScreen from './src/screens/CharactersScreen'
+import CharacterDetailScreen from './src/screens/CharacterDetailScreen'
+import EpisodeDetailScreen from './src/screens/EpisodeDetailScreen'
+import LocationDetailScreen from './src/screens/LocationDetailScreen'
 
 const Stack = createNativeStackNavigator()
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Navigator initialRouteName="Characters">
+        <Stack.Screen name="Characters" component={CharactersScreen} />
+        <Stack.Screen name="CharacterDetail" component={CharacterDetailScreen} />
+        <Stack.Screen name="EpisodeDetail" component={EpisodeDetailScreen} />
+        <Stack.Screen name="LocationDetail" component={LocationDetailScreen} />
       </Stack.Navigator>
       <StatusBar style="auto" />
     </NavigationContainer>
