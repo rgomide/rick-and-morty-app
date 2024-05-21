@@ -22,7 +22,7 @@ const CharactersScreen = (props) => {
           const chars = await getCharactersByIds(characterIds)
 
           setPageInfo({})
-          setCharacters(chars.data)
+          setCharacters([chars.data].flat())
         } catch (error) {
           setPageInfo({})
           setCharacters([])

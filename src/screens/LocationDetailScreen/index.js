@@ -28,7 +28,6 @@ const LocationDetailScreen = (props) => {
   }, [locationId])
 
   const locationCardPress = (location) => {
-    console.log(location)
     const characterIds = extracdIdsFromUrlList(location.residents)
     navigation.navigate('Characters', { characterIds })
   }

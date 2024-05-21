@@ -19,7 +19,7 @@ const EpisodeDetailScreen = (props) => {
       try {
         const episodes = await getEpisodesByIds(episodeIds)
 
-        setEpisodes(episodes.data)
+        setEpisodes([episodes.data].flat())
       } catch (error) {
         setEpisodes([])
       }
