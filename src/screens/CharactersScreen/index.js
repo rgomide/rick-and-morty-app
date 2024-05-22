@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react'
-import { View, TextInput, Button, FlatList, StyleSheet } from 'react-native'
+import { View, TextInput, FlatList, StyleSheet } from 'react-native'
+
+import CharacterCard from '../../components/CharacterCard'
+import Spinner from '../../components/Spinner'
 
 import {
   getCharacterByName,
   getCharactersByIds,
   getNextCharacterPage
 } from '../../services/rickAndMortyApi'
-import CharacterCard from '../../components/CharacterCard'
-import Spinner from '../../components/Spinner'
 
 const DEBOUNCE_TIME = 700
 const MIN_CHARACTERS_TO_SEARCH = 3
@@ -78,10 +79,8 @@ const CharactersScreen = (props) => {
   const loadNextPage = async () => {
     try {
       setIsLoadingNextPage(true)
-      const chars = await getNextCharacterPage(pageInfo.next)
-      setIsLoadingNextPage(false)
 
-      console.log(chars)
+      const chars = await getNextCharacterPage(pageInfo.next)
 
       setPageInfo(chars.data.info)
       setCharacters([...characters, ...chars.data.results])
