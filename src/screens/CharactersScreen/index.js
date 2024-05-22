@@ -78,21 +78,34 @@ const CharactersScreen = (props) => {
       data={isLoading ? [] : characters}
       contentContainerStyle={styles.mainView}
       keyExtractor={(item) => item.id}
+      refreshing={isLoading || isLoadingNextPage}
+      onEndReached={() => {
+        if (pageInfo.next) {
+          loadNextPage()
+        }
+      }}
+      onEndReachedThreshold={0.01}
+      end
       renderItem={(element) => {
         return <CharacterCard onPress={characterCardPress} character={element.item} />
       }}
-      ListEmptyComponent={<Spinner />}
+      ListEmptyComponent={
+        (isLoading || isLoadingNextPage) && <Spinner />
+      }
       ListHeaderComponent={
-        <View style={styles.headerView}>
+        < View style={styles.headerView} >
           <TextInput style={styles.textInput} onChangeText={setNameSearch} value={nameSearch} />
           <Button title="Load Characters" onPress={loadCharacters} />
-        </View>
+        </View >
       }
       ListFooterComponent={
-        <View style={styles.footerView}>
-          {isLoadingNextPage && <Spinner />}
-          <Button title="Load More..." disabled={!pageInfo.next} onPress={loadNextPage} />
-        </View>
+        <>
+          {isLoadingNextPage &&
+            < View style={styles.footerView} >
+              <Spinner />
+            </View >
+          }
+        </>
       }
     />
   )
@@ -108,7 +121,7 @@ const styles = StyleSheet.create({
     gap: 10
   },
   footerView: {
-    gap: 10
+    paddingVertical: 20
   },
   textInput: {
     borderWidth: 1,
