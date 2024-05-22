@@ -9,6 +9,10 @@ import {
 import CharacterCard from '../../components/CharacterCard'
 import Spinner from '../../components/Spinner'
 
+const DEBOUNCE_TIME = 700
+const MIN_CHARACTERS_TO_SEARCH = 3
+const END_REACHED_THRESHOLD = 0.01
+
 const CharactersScreen = (props) => {
   const { navigation, route: { params: { characterIds } = {} } = {} } = props
 
@@ -18,7 +22,7 @@ const CharactersScreen = (props) => {
   const [pageInfo, setPageInfo] = useState({})
   const [nameSearch, setNameSearch] = useState('')
 
-  const isLoadingAnyData = (isLoading || isLoadingNextPage)
+  const isLoadingAnyData = isLoading || isLoadingNextPage
 
   const characterCardPress = (character) => {
     navigation.navigate('CharacterDetail', { character })
@@ -47,15 +51,15 @@ const CharactersScreen = (props) => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (nameSearch.length > 3) {
-        loadCharacters()
+      if (nameSearch.length >= MIN_CHARACTERS_TO_SEARCH) {
+        loadCharactersByName()
       }
-    }, 700)
+    }, DEBOUNCE_TIME)
 
     return () => clearTimeout(timer)
   }, [nameSearch])
 
-  const loadCharacters = async () => {
+  const loadCharactersByName = async () => {
     try {
       setIsLoading(true)
 
@@ -101,15 +105,20 @@ const CharactersScreen = (props) => {
           loadNextPage()
         }
       }}
-      onEndReachedThreshold={0.2}
-      end
+      onEndReachedThreshold={END_REACHED_THRESHOLD}
       renderItem={(element) => {
         return <CharacterCard onPress={characterCardPress} character={element.item} />
       }}
       ListEmptyComponent={isLoadingAnyData && <Spinner />}
       ListHeaderComponent={
         <View style={styles.headerView}>
-          <TextInput placeholder='Type a character name...' placeholderTextColor={'#888'} style={styles.textInput} onChangeText={setNameSearch} value={nameSearch} />
+          <TextInput
+            placeholder="Type a character name..."
+            placeholderTextColor={'#888'}
+            style={styles.textInput}
+            onChangeText={setNameSearch}
+            value={nameSearch}
+          />
         </View>
       }
       ListFooterComponent={
