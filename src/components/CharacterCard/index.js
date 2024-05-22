@@ -13,7 +13,7 @@ const CharacterCard = (props) => {
       <View style={styles.characterContainer}>
         <Image style={styles.characterImage} source={{ uri: image }} />
         <View>
-          <Text>{name}</Text>
+          <Text style={styles.nameText}>{name}</Text>
           <Text>{status}</Text>
         </View>
       </View>
@@ -25,11 +25,18 @@ const styles = StyleSheet.create({
   characterContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 5
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: '#CCCCCC',
+    backgroundColor: '#FFFFFF'
+  },
+  nameText: {
+    fontSize: 18,
+    fontWeight: 'bold'
   },
   characterImage: {
-    width: 90,
-    height: 90,
+    width: 100,
+    height: 100,
     marginRight: 10
   }
 })

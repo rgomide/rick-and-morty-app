@@ -12,11 +12,11 @@ const Stack = createNativeStackNavigator()
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Characters">
-        <Stack.Screen name="Characters" component={CharactersScreen} />
-        <Stack.Screen name="CharacterDetail" component={CharacterDetailScreen} />
-        <Stack.Screen name="EpisodeDetail" component={EpisodeDetailScreen} />
-        <Stack.Screen name="LocationDetail" component={LocationDetailScreen} />
+      <Stack.Navigator initialRouteName="Characters" screenOptions={{ contentStyle: { backgroundColor: "#eee" } }}>
+        <Stack.Screen name="Characters" component={CharactersScreen} options={{ title: 'Characters' }} />
+        <Stack.Screen name="CharacterDetail" component={CharacterDetailScreen} options={{ title: 'Character Detail' }} />
+        <Stack.Screen name="EpisodeDetail" component={EpisodeDetailScreen} options={{ title: 'Episodes' }} />
+        <Stack.Screen name="LocationDetail" component={LocationDetailScreen} options={{ title: 'Location' }} />
       </Stack.Navigator>
       <StatusBar style="auto" />
     </NavigationContainer>

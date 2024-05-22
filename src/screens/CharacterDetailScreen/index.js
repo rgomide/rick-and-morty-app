@@ -1,4 +1,4 @@
-import { Button, View } from 'react-native'
+import { Button, View, StyleSheet } from 'react-native'
 import CharacterDetailCard from '../../components/CharacterDetailCard'
 import { extracdIdsFromUrlList } from '../../services/common'
 
@@ -20,7 +20,10 @@ const CharacterDetailScreen = (props) => {
   const episodesTitle = `Episodes (${episodesLength})`
 
   const locationTitle = `Location - ${locationName}`
+  const locationDisabled = locationUrl == ''
+
   const originTitle = `Origin - ${originName}`
+  const originDisabled = originUrl == ''
 
   const goToEpisodeDetailScreen = () => {
     const episodeIds = extracdIdsFromUrlList(episodes)
@@ -33,17 +36,19 @@ const CharacterDetailScreen = (props) => {
   }
 
   return (
-    <View>
+    <View style={styles.mainContainer}>
       <CharacterDetailCard character={character} />
       <Button title={episodesTitle} onPress={goToEpisodeDetailScreen} />
       <Button
         title={locationTitle}
+        disabled={locationDisabled}
         onPress={() => {
           goToLocationScreen(locationUrl)
         }}
       />
       <Button
         title={originTitle}
+        disabled={originDisabled}
         onPress={() => {
           goToLocationScreen(originUrl)
         }}
@@ -51,5 +56,12 @@ const CharacterDetailScreen = (props) => {
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  mainContainer: {
+    padding: 10,
+    gap: 10
+  }
+})
 
 export default CharacterDetailScreen

@@ -5,18 +5,35 @@ const EpisodeCard = (props) => {
 
   return (
     <TouchableOpacity onPress={() => onPressHandler(episode)}>
-      <View style={styles.innerView}>
-        <Text>{episode.name}</Text>
-        <Text>{episode.episode}</Text>
+      <View style={styles.episodeContainer}>
+        <Text style={styles.episodeName}>{episode.name}</Text>
+        <Text style={styles.episodeDetail}>
+          {episode.episode} - {episode.air_date}
+        </Text>
       </View>
     </TouchableOpacity>
   )
 }
 
 const styles = StyleSheet.create({
-  innerView: {
-    paddin: 10,
-    borderWidth: 1
+  episodeContainer: {
+    flexDirection: 'col',
+    alignItems: 'center',
+    marginVertical: 5,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: '#CCCCCC',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 7,
+    paddingVertical: 15,
+    gap: 3
+  },
+  episodeName: {
+    fontSize: 18,
+    fontWeight: 'bold'
+  },
+  episodeDetail: {
+    color: '#666666'
   }
 })
 

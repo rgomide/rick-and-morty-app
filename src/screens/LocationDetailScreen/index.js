@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { View } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import { getLocationById } from '../../services/rickAndMortyApi'
 import LocationCard from '../../components/LocationCard'
 import { extracdIdsFromUrlList } from '../../services/common'
@@ -33,10 +33,16 @@ const LocationDetailScreen = (props) => {
   }
 
   return (
-    <View>
+    <View style={styles.mainView}>
       <LocationCard location={location} onPress={locationCardPress} />
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  mainView: {
+    padding: 10
+  }
+})
 
 export default LocationDetailScreen
