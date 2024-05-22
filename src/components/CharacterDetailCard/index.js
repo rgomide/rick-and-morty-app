@@ -3,7 +3,7 @@ import { Image, Text, View, StyleSheet } from 'react-native'
 const CharacterDetailCard = ({ character }) => {
   const { name, status, species, type, gender, image } = character
 
-  const nameStatus = status.toLowerCase() != 'unknown' ? `${name} - ${status}` : name
+  const nameStatus = status.toLowerCase() != 'unknown' ? `${name} (${status})` : name
 
   return (
     <View style={styles.characterContainer}>
