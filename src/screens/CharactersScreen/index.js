@@ -7,10 +7,13 @@ import {
   getNextCharacterPage
 } from '../../services/rickAndMortyApi'
 import CharacterCard from '../../components/CharacterCard'
+import Spinner from '../../components/Spinner'
 
 const CharactersScreen = (props) => {
   const { navigation, route: { params: { characterIds } = {} } = {} } = props
 
+  const [isLoading, setIsLoading] = useState(false)
+  const [isLoadingNextPage, setIsLoadingNextPage] = useState(false)
   const [characters, setCharacters] = useState([])
   const [pageInfo, setPageInfo] = useState({})
   const [nameSearch, setNameSearch] = useState('')
@@ -23,7 +26,9 @@ const CharactersScreen = (props) => {
     if (characterIds) {
       const getCharacters = async () => {
         try {
+          setIsLoading(true)
           const chars = await getCharactersByIds(characterIds)
+          setIsLoading(false)
 
           setPageInfo({})
           setCharacters([chars.data].flat())
@@ -39,9 +44,9 @@ const CharactersScreen = (props) => {
 
   const loadCharacters = async () => {
     try {
-      const chars = await getCharacterByName({
-        name: nameSearch
-      })
+      setIsLoading(true)
+      const chars = await getCharacterByName({ name: nameSearch })
+      setIsLoading(false)
 
       setPageInfo(chars.data.info)
       setCharacters(chars.data.results)
@@ -53,9 +58,9 @@ const CharactersScreen = (props) => {
 
   const loadNextPage = async () => {
     try {
-      console.log(pageInfo)
-
+      setIsLoadingNextPage(true)
       const chars = await getNextCharacterPage(pageInfo.next)
+      setIsLoadingNextPage(false)
 
       console.log(chars)
 
@@ -70,12 +75,13 @@ const CharactersScreen = (props) => {
   return (
     <FlatList
       style={styles.marginVertical}
-      data={characters}
+      data={isLoading ? [] : characters}
       contentContainerStyle={styles.mainView}
       keyExtractor={(item) => item.id}
       renderItem={(element) => {
         return <CharacterCard onPress={characterCardPress} character={element.item} />
       }}
+      ListEmptyComponent={<Spinner />}
       ListHeaderComponent={
         <View style={styles.headerView}>
           <TextInput style={styles.textInput} onChangeText={setNameSearch} value={nameSearch} />
@@ -83,7 +89,8 @@ const CharactersScreen = (props) => {
         </View>
       }
       ListFooterComponent={
-        <View>
+        <View style={styles.footerView}>
+          {isLoadingNextPage && <Spinner />}
           <Button title="Load More..." disabled={!pageInfo.next} onPress={loadNextPage} />
         </View>
       }
@@ -98,6 +105,9 @@ const styles = StyleSheet.create({
     gap: 10
   },
   headerView: {
+    gap: 10
+  },
+  footerView: {
     gap: 10
   },
   textInput: {

@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
-import { FlatList, View, StyleSheet } from 'react-native'
+import { FlatList, StyleSheet } from 'react-native'
 import { getEpisodesByIds } from '../../services/rickAndMortyApi'
 import EpisodeCard from '../../components/EpisodeCard'
 import { extracdIdsFromUrlList } from '../../services/common'
+import Spinner from '../../components/Spinner'
 
 const EpisodeDetailScreen = (props) => {
   const {
@@ -12,12 +13,15 @@ const EpisodeDetailScreen = (props) => {
     navigation
   } = props
 
+  const [isLoading, setIsLoading] = useState(false)
   const [episodes, setEpisodes] = useState([])
 
   useEffect(() => {
     const getEpisodes = async () => {
       try {
+        setIsLoading(true)
         const episodes = await getEpisodesByIds(episodeIds)
+        setIsLoading(false)
 
         setEpisodes([episodes.data].flat())
       } catch (error) {
@@ -34,14 +38,20 @@ const EpisodeDetailScreen = (props) => {
   }
 
   return (
-    <FlatList
-      data={episodes}
-      keyExtractor={(item) => item.id}
-      contentContainerStyle={styles.mainStyle}
-      renderItem={({ item }) => {
-        return <EpisodeCard episode={item} onPress={episodeCardPress} />
-      }}
-    />
+    <>
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <FlatList
+          data={episodes}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={styles.mainStyle}
+          renderItem={({ item }) => {
+            return <EpisodeCard episode={item} onPress={episodeCardPress} />
+          }}
+        />
+      )}
+    </>
   )
 }
 
