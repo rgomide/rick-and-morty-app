@@ -2,13 +2,13 @@ import { Text, Pressable, View, StyleSheet } from 'react-native'
 
 const EpisodeCard = (props) => {
   const { episode, onPress: onPressHandler } = props
-
+  const { name, episode: episodeNumber, air_date: airDate } = episode
   return (
     <Pressable onPress={() => onPressHandler(episode)}>
       <View style={styles.episodeContainer}>
-        <Text style={styles.episodeName}>{episode.name}</Text>
+        <Text style={styles.episodeName}>{name}</Text>
         <Text style={styles.episodeDetail}>
-          {episode.episode} - Released on {episode.air_date}
+          {episodeNumber} - Released on {airDate}
         </Text>
       </View>
     </Pressable>
