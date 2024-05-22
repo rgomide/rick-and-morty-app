@@ -21,11 +21,12 @@ const EpisodeDetailScreen = (props) => {
       try {
         setIsLoading(true)
         const episodes = await getEpisodesByIds(episodeIds)
-        setIsLoading(false)
 
         setEpisodes([episodes.data].flat())
       } catch (error) {
         setEpisodes([])
+      } finally {
+        setIsLoading(false)
       }
     }
 

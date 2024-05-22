@@ -18,6 +18,8 @@ const CharactersScreen = (props) => {
   const [pageInfo, setPageInfo] = useState({})
   const [nameSearch, setNameSearch] = useState('')
 
+  const isLoadingAnyData = (isLoading || isLoadingNextPage)
+
   const characterCardPress = (character) => {
     navigation.navigate('CharacterDetail', { character })
   }
@@ -28,13 +30,14 @@ const CharactersScreen = (props) => {
         try {
           setIsLoading(true)
           const chars = await getCharactersByIds(characterIds)
-          setIsLoading(false)
 
           setPageInfo({})
           setCharacters([chars.data].flat())
         } catch (error) {
           setPageInfo({})
           setCharacters([])
+        } finally {
+          setIsLoading(false)
         }
       }
 
@@ -42,17 +45,29 @@ const CharactersScreen = (props) => {
     }
   }, [characterIds])
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (nameSearch.length > 3) {
+        loadCharacters()
+      }
+    }, 700)
+
+    return () => clearTimeout(timer)
+  }, [nameSearch])
+
   const loadCharacters = async () => {
     try {
       setIsLoading(true)
+
       const chars = await getCharacterByName({ name: nameSearch })
-      setIsLoading(false)
 
       setPageInfo(chars.data.info)
       setCharacters(chars.data.results)
     } catch (error) {
       setPageInfo({})
       setCharacters([])
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -69,6 +84,8 @@ const CharactersScreen = (props) => {
     } catch (error) {
       setPageInfo({})
       setCharacters([])
+    } finally {
+      setIsLoadingNextPage(false)
     }
   }
 
@@ -84,27 +101,24 @@ const CharactersScreen = (props) => {
           loadNextPage()
         }
       }}
-      onEndReachedThreshold={0.01}
+      onEndReachedThreshold={0.2}
       end
       renderItem={(element) => {
         return <CharacterCard onPress={characterCardPress} character={element.item} />
       }}
-      ListEmptyComponent={
-        (isLoading || isLoadingNextPage) && <Spinner />
-      }
+      ListEmptyComponent={isLoadingAnyData && <Spinner />}
       ListHeaderComponent={
-        < View style={styles.headerView} >
-          <TextInput style={styles.textInput} onChangeText={setNameSearch} value={nameSearch} />
-          <Button title="Load Characters" onPress={loadCharacters} />
-        </View >
+        <View style={styles.headerView}>
+          <TextInput placeholder='Type a character name...' placeholderTextColor={'#888'} style={styles.textInput} onChangeText={setNameSearch} value={nameSearch} />
+        </View>
       }
       ListFooterComponent={
         <>
-          {isLoadingNextPage &&
-            < View style={styles.footerView} >
+          {isLoadingNextPage && (
+            <View style={styles.footerView}>
               <Spinner />
-            </View >
-          }
+            </View>
+          )}
         </>
       }
     />
