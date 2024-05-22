@@ -7,7 +7,7 @@ const CharacterDetailCard = ({ character }) => {
 
   return (
     <View style={styles.characterContainer}>
-      <Image style={styles.characterImage} tintColor={null} source={{ uri: image }} />
+      <Image style={styles.characterImage} source={{ uri: image }} />
       <View style={styles.detailContainer}>
         <Text style={styles.textTitle}>{nameStatus}</Text>
         <Text>{species}</Text>
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   },
   detailContainer: {
     alignItems: 'center',
-    flexShrink: 'initial'
+    flexShrink: 1
   },
   characterImage: {
     width: 180,

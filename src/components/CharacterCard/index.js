@@ -11,7 +11,7 @@ const CharacterCard = (props) => {
       }}
     >
       <View style={styles.characterContainer}>
-        <Image style={styles.characterImage} tintColor={null} source={{ uri: image }} />
+        <Image style={styles.characterImage} source={{ uri: image }} />
         <View style={styles.textContainer}>
           <Text style={styles.nameText} numberOfLines={1} ellipsizeMode="tail">
             {name}
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   textContainer: {
-    flexShrink: 'initial',
+    flexShrink: 1,
     paddingRight: 10
   },
   characterImage: {
