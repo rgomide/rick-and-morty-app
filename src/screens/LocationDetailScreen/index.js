@@ -29,7 +29,9 @@ const LocationDetailScreen = (props) => {
 
   const locationCardPress = (location) => {
     const characterIds = extracdIdsFromUrlList(location.residents)
-    navigation.navigate('Characters', { characterIds })
+    const from = `Location: ${location.name}`
+
+    navigation.navigate('Characters', { characterIds, from })
   }
 
   return (

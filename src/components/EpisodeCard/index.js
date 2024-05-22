@@ -1,17 +1,17 @@
-import { Text, TouchableOpacity, View, StyleSheet } from 'react-native'
+import { Text, Pressable, View, StyleSheet } from 'react-native'
 
 const EpisodeCard = (props) => {
   const { episode, onPress: onPressHandler } = props
 
   return (
-    <TouchableOpacity onPress={() => onPressHandler(episode)}>
+    <Pressable onPress={() => onPressHandler(episode)}>
       <View style={styles.episodeContainer}>
         <Text style={styles.episodeName}>{episode.name}</Text>
         <Text style={styles.episodeDetail}>
-          {episode.episode} - {episode.air_date}
+          {episode.episode} - Released on {episode.air_date}
         </Text>
       </View>
-    </TouchableOpacity>
+    </Pressable>
   )
 }
 
@@ -24,13 +24,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#CCCCCC',
     backgroundColor: '#FFFFFF',
-    paddingHorizontal: 7,
+    paddingHorizontal: 10,
     paddingVertical: 15,
     gap: 3
   },
   episodeName: {
     fontSize: 18,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    textAlign: 'center'
   },
   episodeDetail: {
     color: '#666666'

@@ -1,10 +1,10 @@
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, Pressable, StyleSheet } from 'react-native'
 
 const LocationCard = (props) => {
   const { location, onPress: onPressHandler } = props
 
   return (
-    <TouchableOpacity
+    <Pressable
       onPress={() => {
         onPressHandler(location)
       }}
@@ -14,7 +14,7 @@ const LocationCard = (props) => {
         <Text>{location.type}</Text>
         <Text>{location.dimension}</Text>
       </View>
-    </TouchableOpacity>
+    </Pressable>
   )
 }
 

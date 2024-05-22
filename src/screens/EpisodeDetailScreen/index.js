@@ -35,7 +35,8 @@ const EpisodeDetailScreen = (props) => {
 
   const episodeCardPress = (episode) => {
     const characterIds = extracdIdsFromUrlList(episode.characters)
-    navigation.navigate('Characters', { characterIds })
+    const from = `Episode ${episode.episode}`
+    navigation.navigate('Characters', { characterIds, from })
   }
 
   return (

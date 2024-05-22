@@ -15,7 +15,7 @@ const MIN_CHARACTERS_TO_SEARCH = 3
 const END_REACHED_THRESHOLD = 0.01
 
 const CharactersScreen = (props) => {
-  const { navigation, route: { params: { characterIds } = {} } = {} } = props
+  const { navigation, route: { params: { characterIds, from } = {} } = {} } = props
 
   const [isLoading, setIsLoading] = useState(false)
   const [isLoadingNextPage, setIsLoadingNextPage] = useState(false)
@@ -30,6 +30,9 @@ const CharactersScreen = (props) => {
   }
 
   useEffect(() => {
+    const title = from ? `Characters - ${from}` : 'Characters'
+    navigation.setOptions({ title: title })
+
     if (characterIds) {
       const getCharacters = async () => {
         try {

@@ -1,23 +1,25 @@
-import { View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Image, Text, StyleSheet, Pressable } from 'react-native'
 
 const CharacterCard = (props) => {
   const { character, onPress: onPressHandler } = props
   const { name, status, image } = character
 
   return (
-    <TouchableOpacity
+    <Pressable
       onPress={() => {
         onPressHandler(character)
       }}
     >
       <View style={styles.characterContainer}>
-        <Image style={styles.characterImage} source={{ uri: image }} />
-        <View>
-          <Text style={styles.nameText}>{name}</Text>
+        <Image style={styles.characterImage} tintColor={null} source={{ uri: image }} />
+        <View style={styles.textContainer}>
+          <Text style={styles.nameText} numberOfLines={1} ellipsizeMode="tail">
+            {name}
+          </Text>
           <Text>{status}</Text>
         </View>
       </View>
-    </TouchableOpacity>
+    </Pressable>
   )
 }
 
@@ -33,6 +35,10 @@ const styles = StyleSheet.create({
   nameText: {
     fontSize: 18,
     fontWeight: 'bold'
+  },
+  textContainer: {
+    flexShrink: 'initial',
+    paddingRight: 10
   },
   characterImage: {
     width: 100,
